@@ -7,7 +7,7 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-        AnthropicClient client = new AnthropicClient("YOUR_API_KEY_HERE");
+        AnthropicClient client = new AnthropicClient();
         ConversationHistory history = new ConversationHistory();
         Scanner sc = new Scanner(System.in);
 
