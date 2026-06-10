@@ -8,17 +8,29 @@ import java.util.List;
  * Handles communication with the Anthropic Claude API.
  */
 public class AnthropicClient {
-    /** Your Anthropic API key. */
+    /** Your Anthropic API key loaded from .env. */
     private String apiKey;
     /** The Claude model to use. */
     private String model = "claude-haiku-4-5";
 
     /**
-     * Creates a new client with the given API key.
-     * @param apiKey your Anthropic API key
+     * Creates a new client, loading the API key from .env file.
      */
-    public AnthropicClient(String apiKey) {
-        this.apiKey = apiKey;
+    public AnthropicClient() {
+        try {
+            java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.FileReader(".env")
+            );
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("ANTHROPIC_API_KEY=")) {
+                    this.apiKey = line.substring("ANTHROPIC_API_KEY=".length()).trim();
+                }
+            }
+            reader.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Could not load .env file: " + e.getMessage());
+        }
     }
 
     /**
